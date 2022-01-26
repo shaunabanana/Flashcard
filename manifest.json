@@ -1,0 +1,11 @@
+{
+  "name": "Flashcard",
+  "id": "1066662067964919463",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": [
+    "figjam"
+  ],
+  "containsWidget": true,
+  "widgetApi": "1.0.0"
+}
