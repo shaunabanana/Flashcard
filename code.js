@@ -10,6 +10,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const { widget } = figma;
 const { useSyncedState, usePropertyMenu, AutoLayout, Text, SVG, Frame } = widget;
+const resetSVG = `<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1 1L13.5 13.5" stroke="white" stroke-width="2"/>
+<path d="M13.5 1L1 13.5" stroke="white" stroke-width="2"/>
+</svg>`;
+const flipSVG = `<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="12.5" cy="12.5" r="12.5" fill="black" fill-opacity="0.3"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M13.2669 7.24079C13.5141 7.27889 13.7593 7.33552 14.0006 7.41074L14.0054 7.41223C15.0636 7.74322 15.9908 8.41425 16.6507 9.32674L16.6558 9.33377C17.2126 10.1063 17.5534 11.0169 17.6465 11.9671L15.122 10.2368L14.476 11.2177L17.9244 13.5814L18.3685 13.8858L18.701 13.4583L21 10.5037L20.0927 9.76896L18.7467 11.4988C18.7376 11.4384 18.7276 11.3782 18.7168 11.3182C18.5431 10.3527 18.158 9.4349 17.5845 8.63704L17.5794 8.63001C16.7734 7.5117 15.6396 6.68899 14.3447 6.28287L14.34 6.28137C14.0438 6.18872 13.7427 6.11899 13.4392 6.07212C12.4143 5.91382 11.3623 6.01634 10.3772 6.37739L10.3718 6.37935C9.46319 6.71331 8.64596 7.25474 7.97849 7.95694C7.73074 8.21759 7.50362 8.50039 7.30012 8.80294C7.28287 8.8286 7.26579 8.85438 7.24888 8.88031L8.2038 9.53855L8.20839 9.53153C8.22071 9.51269 8.23315 9.49394 8.2457 9.47528C8.86162 8.55954 9.742 7.86506 10.7632 7.49078L10.7685 7.48883C11.0835 7.37379 11.4068 7.29104 11.7338 7.24069C12.2416 7.1625 12.7583 7.1624 13.2669 7.24079ZM6.29895 11.5417L4 14.4963L4.9073 15.2311L6.25332 13.5012C6.26248 13.5616 6.27246 13.6218 6.28326 13.6818C6.4569 14.6473 6.84205 15.5652 7.41549 16.363L7.42056 16.37C8.22659 17.4883 9.36046 18.311 10.6553 18.7171L10.66 18.7186C10.9564 18.8113 11.2575 18.8811 11.5611 18.9279C12.5859 19.0862 13.6379 18.9836 14.6229 18.6227L14.6282 18.6207C15.5369 18.2867 16.3541 17.7453 17.0216 17.0431C17.2693 16.7825 17.4964 16.4997 17.6999 16.1971C17.7171 16.1715 17.7342 16.1456 17.7511 16.1197L16.7962 15.4615L16.7917 15.4685C16.7793 15.4873 16.7668 15.5061 16.7543 15.5249C16.1383 16.4405 15.258 17.1349 14.2369 17.5093L14.2315 17.5112C13.9165 17.6263 13.5933 17.7089 13.2662 17.7593C12.7584 17.8376 12.2417 17.8376 11.7331 17.7592C11.486 17.7212 11.2407 17.6645 10.9994 17.5893L10.9946 17.5878C9.93638 17.2568 9.00927 16.5857 8.34933 15.6733L8.34425 15.6663C7.78741 14.8937 7.44668 13.9832 7.3536 13.0329L9.87802 14.7632L10.5241 13.7823L7.07562 11.4186L6.63157 11.1143L6.29895 11.5417Z" fill="white"/>
+</svg>`;
 function Widget() {
     const [side, setSide] = useSyncedState('side', 'front');
     const [front, setFront] = useSyncedState('front', '');
@@ -23,19 +31,20 @@ function Widget() {
             {
                 itemType: 'action',
                 propertyName: 'reset',
-                tooltip: 'Reset',
-                icon: `<svg width="22" height="15" viewBox="0 0 22 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9026 1.43168C12.1936 1.47564 12.4822 1.54098 12.7663 1.62777L12.7719 1.62949C14.0176 2.0114 15.109 2.78567 15.8858 3.83854L15.8918 3.84665C16.5473 4.73808 16.9484 5.78867 17.058 6.88508L14.0863 4.88858L13.3259 6.02047L17.3852 8.74774L17.9079 9.09894L18.2994 8.60571L21.0056 5.19662L19.9376 4.34879L18.3531 6.34479C18.3424 6.27511 18.3306 6.20563 18.3179 6.13636C18.1135 5.02233 17.6601 3.96334 16.9851 3.04274L16.9791 3.03462C16.0303 1.74427 14.6956 0.794984 13.1714 0.326388L13.1658 0.32466C12.8171 0.217755 12.4627 0.137298 12.1055 0.0832198C10.899 -0.0994351 9.66061 0.0188515 8.50099 0.435448L8.4947 0.437711C7.42511 0.823053 6.46311 1.44778 5.6774 2.25801C5.38576 2.55876 5.11841 2.88506 4.87886 3.23416C4.85856 3.26376 4.83845 3.29351 4.81854 3.32343L5.94262 4.08294L5.94802 4.07484C5.96253 4.0531 5.97717 4.03146 5.99195 4.00993C6.71697 2.95331 7.75331 2.15199 8.95541 1.72013L8.9617 1.71788C9.33245 1.58514 9.71301 1.48966 10.098 1.43156C10.6957 1.34135 11.3039 1.34123 11.9026 1.43168ZM3.70034 6.39429L0.994141 9.80338L2.06217 10.6512L3.64663 8.65521C3.65741 8.72489 3.66916 8.79437 3.68187 8.86364C3.88627 9.97767 4.33964 11.0367 5.01467 11.9573L5.02063 11.9654C5.96945 13.2557 7.30418 14.205 8.82835 14.6736L8.83398 14.6753C9.18281 14.7823 9.53732 14.8628 9.89464 14.9168C11.101 15.0994 12.3393 14.9811 13.4988 14.5646L13.5051 14.5623C14.5747 14.1769 15.5367 13.5522 16.3224 12.742C16.614 12.4413 16.8813 12.115 17.1209 11.7659C17.1412 11.7363 17.1613 11.7065 17.1812 11.6766L16.0571 10.9171L16.0518 10.9252C16.0372 10.9469 16.0225 10.9686 16.0078 10.9902C15.2827 12.0467 14.2464 12.848 13.0444 13.2799L13.0381 13.2821C12.6673 13.4149 12.2868 13.5103 11.9018 13.5684C11.3041 13.6587 10.6958 13.6588 10.0971 13.5683C9.8062 13.5244 9.51754 13.459 9.23347 13.3722L9.22784 13.3705C7.98212 12.9886 6.89078 12.2143 6.11393 11.1615L6.10795 11.1534C5.45247 10.2619 5.05138 9.21133 4.94181 8.11492L7.91342 10.1114L8.6739 8.97953L4.61459 6.25226L4.09188 5.90106L3.70034 6.39429Z" fill="white"/>
-          </svg>
-          `,
+                tooltip: 'Reset this side',
+                icon: resetSVG,
             },
         ], () => {
-            setFront('');
-            setFrontWidth(160);
-            setFrontHeight(175);
-            setBack('');
-            setBackWidth(160);
-            setBackHeight(175);
+            if (side === 'front') {
+                setFront('');
+                setFrontWidth(160);
+                setFrontHeight(175);
+            }
+            else if (side === 'back') {
+                setBack('');
+                setBackWidth(160);
+                setBackHeight(175);
+            }
         });
     }
     function width() {
@@ -107,6 +116,8 @@ function Widget() {
                     if (front.length === 0) {
                         if (figma.currentPage.selection.length === 0)
                             return;
+                        if (figma.currentPage.selection[0].type === 'WIDGET' && figma.currentPage.selection[0].widgetId === figma.widgetId)
+                            return;
                         console.log('front is empty, setting to current selection.');
                         const svg = yield figma.currentPage.selection[0].exportAsync({ format: 'SVG' });
                         setFront(String.fromCharCode.apply(null, svg));
@@ -114,12 +125,25 @@ function Widget() {
                         setFrontHeight(figma.currentPage.selection[0].height);
                     }
                     else {
-                        setSide('back');
+                        console.log(figma.currentPage.selection);
+                        if (figma.currentPage.selection.length === 0) {
+                            setSide('back');
+                        } else {
+                            figma.currentPage.selection.forEach((node) => {
+                                if (node.type !== 'WIDGET' || node.widgetId !== figma.widgetId) return;
+                                console.log(node, node.id, node.widgetSyncedState['side']);
+                                const nodeState = node.widgetSyncedState;
+                                nodeState['side'] = node.widgetSyncedState['side'] === 'front' ? 'back' : 'front'
+                                node.setWidgetSyncedState(nodeState);
+                            })
+                        }
                     }
                 }
                 else if (side === 'back') {
                     if (back.length === 0) {
                         if (figma.currentPage.selection.length === 0)
+                            return;
+                        if (figma.currentPage.selection[0].type === 'WIDGET' && figma.currentPage.selection[0].widgetId === figma.widgetId)
                             return;
                         console.log('back is empty, setting to current selection.');
                         const svg = yield figma.currentPage.selection[0].exportAsync({ format: 'SVG' });
@@ -128,14 +152,28 @@ function Widget() {
                         setBackHeight(figma.currentPage.selection[0].height);
                     }
                     else {
-                        setSide('front');
+                        console.log(figma.currentPage.selection);
+                        if (figma.currentPage.selection.length === 0) {
+                            setSide('front');
+                        } else {
+                            figma.currentPage.selection.forEach((node) => {
+                                if (node.type !== 'WIDGET' || node.widgetId !== figma.widgetId) return;
+                                console.log(node, node.id, node.widgetSyncedState['side']);
+                                const nodeState = node.widgetSyncedState;
+                                nodeState['side'] = node.widgetSyncedState['side'] === 'front' ? 'back' : 'front'
+                                node.setWidgetSyncedState(nodeState);
+                            })
+                        }
                     }
                 }
             }) },
             figma.widget.h(SVG, { src: content() }),
-            figma.widget.h(SVG, { x: width() - 30, y: height() - 30, src: `<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12.5" cy="12.5" r="12.5" fill="black" fill-opacity="0.3"/>
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2669 7.24079C13.5141 7.27889 13.7593 7.33552 14.0006 7.41074L14.0054 7.41223C15.0636 7.74322 15.9908 8.41425 16.6507 9.32674L16.6558 9.33377C17.2126 10.1063 17.5534 11.0169 17.6465 11.9671L15.122 10.2368L14.476 11.2177L17.9244 13.5814L18.3685 13.8858L18.701 13.4583L21 10.5037L20.0927 9.76896L18.7467 11.4988C18.7376 11.4384 18.7276 11.3782 18.7168 11.3182C18.5431 10.3527 18.158 9.4349 17.5845 8.63704L17.5794 8.63001C16.7734 7.5117 15.6396 6.68899 14.3447 6.28287L14.34 6.28137C14.0438 6.18872 13.7427 6.11899 13.4392 6.07212C12.4143 5.91382 11.3623 6.01634 10.3772 6.37739L10.3718 6.37935C9.46319 6.71331 8.64596 7.25474 7.97849 7.95694C7.73074 8.21759 7.50362 8.50039 7.30012 8.80294C7.28287 8.8286 7.26579 8.85438 7.24888 8.88031L8.2038 9.53855L8.20839 9.53153C8.22071 9.51269 8.23315 9.49394 8.2457 9.47528C8.86162 8.55954 9.742 7.86506 10.7632 7.49078L10.7685 7.48883C11.0835 7.37379 11.4068 7.29104 11.7338 7.24069C12.2416 7.1625 12.7583 7.1624 13.2669 7.24079ZM6.29895 11.5417L4 14.4963L4.9073 15.2311L6.25332 13.5012C6.26248 13.5616 6.27246 13.6218 6.28326 13.6818C6.4569 14.6473 6.84205 15.5652 7.41549 16.363L7.42056 16.37C8.22659 17.4883 9.36046 18.311 10.6553 18.7171L10.66 18.7186C10.9564 18.8113 11.2575 18.8811 11.5611 18.9279C12.5859 19.0862 13.6379 18.9836 14.6229 18.6227L14.6282 18.6207C15.5369 18.2867 16.3541 17.7453 17.0216 17.0431C17.2693 16.7825 17.4964 16.4997 17.6999 16.1971C17.7171 16.1715 17.7342 16.1456 17.7511 16.1197L16.7962 15.4615L16.7917 15.4685C16.7793 15.4873 16.7668 15.5061 16.7543 15.5249C16.1383 16.4405 15.258 17.1349 14.2369 17.5093L14.2315 17.5112C13.9165 17.6263 13.5933 17.7089 13.2662 17.7593C12.7584 17.8376 12.2417 17.8376 11.7331 17.7592C11.486 17.7212 11.2407 17.6645 10.9994 17.5893L10.9946 17.5878C9.93638 17.2568 9.00927 16.5857 8.34933 15.6733L8.34425 15.6663C7.78741 14.8937 7.44668 13.9832 7.3536 13.0329L9.87802 14.7632L10.5241 13.7823L7.07562 11.4186L6.63157 11.1143L6.29895 11.5417Z" fill="white"/>
-          </svg>` }))));
+            figma.widget.h(SVG, { x: 8, y: height() - 30, src: flipSVG, onClick: () => __awaiter(this, void 0, void 0, function* () {
+                    // if (side === 'front') {
+                    //   setSide('back');
+                    // } else if (side === 'back') {
+                    //   setSide('front');
+                    // }
+                }) }))));
 }
 widget.register(Widget);
