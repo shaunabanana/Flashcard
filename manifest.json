@@ -4,8 +4,10 @@
   "api": "1.0.0",
   "main": "code.js",
   "editorType": [
-    "figjam"
+    "figjam",
+    "figma"
   ],
   "containsWidget": true,
-  "widgetApi": "1.0.0"
+  "widgetApi": "1.0.0",
+  "networkAccess": { "allowedDomains": ["none"] }
 }

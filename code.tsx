@@ -120,24 +120,46 @@ function Widget() {
         if (side === 'front') {
           if (front.length === 0) {
             if (figma.currentPage.selection.length === 0) return;
+            if (figma.currentPage.selection[0].type === 'WIDGET' && figma.currentPage.selection[0].widgetId === figma.widgetId) return;
             console.log('front is empty, setting to current selection.');
             const svg = await figma.currentPage.selection[0].exportAsync({ format: 'SVG' });
             setFront(String.fromCharCode.apply(null, svg));
             setFrontWidth(figma.currentPage.selection[0].width);
             setFrontHeight(figma.currentPage.selection[0].height);
           } else {
-            setSide('back');
+            if (figma.currentPage.selection.length === 0) {
+              setSide('back');
+            } else {
+              figma.currentPage.selection.forEach((node) => {
+                if (node.type !== 'WIDGET' || node.widgetId !== figma.widgetId) return;
+                console.log(node, node.id, node.widgetSyncedState['side']);
+                const nodeState = node.widgetSyncedState;
+                nodeState['side'] = node.widgetSyncedState['side'] === 'front' ? 'back' : 'front'
+                node.setWidgetSyncedState(nodeState);
+              })
+            }
           }
         } else if (side === 'back') {
           if (back.length === 0) {
             if (figma.currentPage.selection.length === 0) return;
+            if (figma.currentPage.selection[0].type === 'WIDGET' && figma.currentPage.selection[0].widgetId === figma.widgetId) return;
             console.log('back is empty, setting to current selection.');
             const svg = await figma.currentPage.selection[0].exportAsync({ format: 'SVG' });
             setBack(String.fromCharCode.apply(null, svg));
             setBackWidth(figma.currentPage.selection[0].width);
             setBackHeight(figma.currentPage.selection[0].height);
           } else {
-            setSide('front');
+            if (figma.currentPage.selection.length === 0) {
+              setSide('front');
+            } else {
+              figma.currentPage.selection.forEach((node) => {
+                if (node.type !== 'WIDGET' || node.widgetId !== figma.widgetId) return;
+                console.log(node, node.id, node.widgetSyncedState['side']);
+                const nodeState = node.widgetSyncedState;
+                nodeState['side'] = node.widgetSyncedState['side'] === 'front' ? 'back' : 'front'
+                node.setWidgetSyncedState(nodeState);
+              })
+            }
           }
         }
       }}>

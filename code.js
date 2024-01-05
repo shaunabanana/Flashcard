@@ -125,17 +125,18 @@ function Widget() {
                         setFrontHeight(figma.currentPage.selection[0].height);
                     }
                     else {
-                        console.log(figma.currentPage.selection);
                         if (figma.currentPage.selection.length === 0) {
                             setSide('back');
-                        } else {
+                        }
+                        else {
                             figma.currentPage.selection.forEach((node) => {
-                                if (node.type !== 'WIDGET' || node.widgetId !== figma.widgetId) return;
+                                if (node.type !== 'WIDGET' || node.widgetId !== figma.widgetId)
+                                    return;
                                 console.log(node, node.id, node.widgetSyncedState['side']);
                                 const nodeState = node.widgetSyncedState;
-                                nodeState['side'] = node.widgetSyncedState['side'] === 'front' ? 'back' : 'front'
+                                nodeState['side'] = node.widgetSyncedState['side'] === 'front' ? 'back' : 'front';
                                 node.setWidgetSyncedState(nodeState);
-                            })
+                            });
                         }
                     }
                 }
@@ -152,17 +153,18 @@ function Widget() {
                         setBackHeight(figma.currentPage.selection[0].height);
                     }
                     else {
-                        console.log(figma.currentPage.selection);
                         if (figma.currentPage.selection.length === 0) {
                             setSide('front');
-                        } else {
+                        }
+                        else {
                             figma.currentPage.selection.forEach((node) => {
-                                if (node.type !== 'WIDGET' || node.widgetId !== figma.widgetId) return;
+                                if (node.type !== 'WIDGET' || node.widgetId !== figma.widgetId)
+                                    return;
                                 console.log(node, node.id, node.widgetSyncedState['side']);
                                 const nodeState = node.widgetSyncedState;
-                                nodeState['side'] = node.widgetSyncedState['side'] === 'front' ? 'back' : 'front'
+                                nodeState['side'] = node.widgetSyncedState['side'] === 'front' ? 'back' : 'front';
                                 node.setWidgetSyncedState(nodeState);
-                            })
+                            });
                         }
                     }
                 }
